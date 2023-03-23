@@ -1,0 +1,308 @@
+.layout {
+	width: 100%;
+	min-height: 100vh;
+	background-color: #595961;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.wrapper {
+		position: relative;
+		width: 100%;
+		max-width: 1200px;
+		.map {
+			max-width: 1200px;
+		}
+		.people {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background-color: rgb(149, 83, 255);
+			position: absolute;
+			top: 78px;
+			left: 99px;
+			z-index: 10;
+			cursor: pointer;
+			&__circle {
+				width: 25px;
+				height: 25px;
+				background-color: rgb(149, 83, 255);
+				border: 2px solid white;
+				border-radius: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: white;
+				font-size: 22px;
+				font-weight: 700;
+				box-sizing: border-box;
+				transform: translate(2.5px, 2.5px);
+			}
+			&:hover {
+				box-shadow: 0 0 10px rgb(149, 83, 255);
+			}
+		}
+	}
+}
+
+.map5 {
+	width: 1509px;
+	height: 502px;
+	background-color: aliceblue;
+	position: relative;
+	.k512b,
+	.k512v,
+	.k512a,
+	.k513,
+	.k514,
+	.k510d,
+	.k510g,
+	.k510v,
+	.k501b,
+	.hoz,
+	.male,
+	.female,
+	.stairs1,
+	.stairs2,
+	.afterFemale,
+	.k515,
+	.k516,
+	.after516_1,
+	.after516_2,
+	.k501,
+	.k501a,
+	.after501a1,
+	.after501a2,
+	.k502,
+	.k503,
+	.k504,
+	.k505a,
+	.k505b,
+	.k505v,
+	.k506,
+	.k507,
+	.after507,
+	.k508,
+	.k509,
+	.k510a,
+	.k510b,
+	.after512,
+	.corner,
+	.corridor,
+	.lift {
+		position: absolute;
+		border: 3px solid #41414a;
+	}
+	.k512a {
+		width: 239px;
+		height: 85px;
+		top: 103px;
+	}
+	.k512b {
+		width: 239px;
+		height: 100px;
+	}
+	.k512v {
+		width: 86px;
+		height: 80px;
+		left: 242px;
+	}
+	.k501b {
+		width: 126px;
+		height: 142px;
+		left: 1378px;
+	}
+	.k510d {
+		height: 136px;
+		width: 154px;
+		top: 191px;
+	}
+	.k510g {
+		height: 82px;
+		width: 154px;
+		top: 330px;
+	}
+	.k510v {
+		height: 82px;
+		width: 154px;
+		top: 415px;
+	}
+	.k513 {
+		width: 96px;
+		height: 188px;
+		left: 331px;
+	}
+	.k514 {
+		width: 71px;
+		height: 188px;
+		left: 430px;
+	}
+	.male {
+		width: 81px;
+		height: 188px;
+		left: 504px;
+	}
+	.female {
+		width: 81px;
+		height: 188px;
+		left: 957px;
+	}
+	.stairs1 {
+		width: 90px;
+		height: 188px;
+		left: 588px;
+	}
+	.stairs2 {
+		width: 90px;
+		height: 188px;
+		left: 864px;
+	}
+	.lift {
+		width: 180px;
+		height: 188px;
+		left: 681px;
+	}
+	.afterFemale {
+		width: 81px;
+		height: 211px;
+		left: 1041px;
+	}
+	.k515 {
+		width: 81px;
+		height: 211px;
+		left: 1125px;
+	}
+	.k516 {
+		width: 94px;
+		height: 211px;
+		left: 1209px;
+	}
+	.after516_1 {
+		width: 69px;
+		height: 74px;
+		left: 1306px;
+	}
+	.after516_2 {
+		width: 69px;
+		height: 134px;
+		left: 1306px;
+		top: 77px;
+	}
+	.hoz {
+		width: 69px;
+		height: 83px;
+		top: 191px;
+		left: 157px;
+	}
+	.k501 {
+		width: 126px;
+		height: 130px;
+		left: 1378px;
+		top: 145px;
+	}
+	.k501a {
+		width: 126px;
+		height: 218px;
+		left: 1378px;
+		top: 278px;
+	}
+	.after501a1 {
+		width: 94px;
+		height: 66px;
+		top: 278px;
+		left: 1281px;
+	}
+	.after501a2 {
+		width: 94px;
+		height: 149px;
+		top: 347px;
+		left: 1281px;
+	}
+	.k502 {
+		width: 79px;
+		height: 218px;
+		top: 278px;
+		left: 1199px;
+	}
+	.k503 {
+		width: 79px;
+		height: 218px;
+		top: 278px;
+		left: 1117px;
+	}
+	.k504 {
+		width: 79px;
+		height: 218px;
+		top: 278px;
+		left: 1035px;
+	}
+	.k505a {
+		width: 144px;
+		height: 66px;
+		top: 278px;
+		left: 888px;
+	}
+	.k505b {
+		width: 144px;
+		height: 149px;
+		top: 347px;
+		left: 888px;
+	}
+	.k505v {
+		width: 70px;
+		height: 218px;
+		top: 278px;
+		left: 815px;
+	}
+	.k506 {
+		width: 97px;
+		height: 218px;
+		top: 278px;
+		left: 715px;
+	}
+	.k507 {
+		width: 85px;
+		height: 218px;
+		top: 278px;
+		left: 627px;
+	}
+	.after507 {
+		width: 99px;
+		height: 218px;
+		top: 278px;
+		left: 525px;
+	}
+	.k508 {
+		width: 84px;
+		height: 218px;
+		top: 278px;
+		left: 438px;
+	}
+	.k509 {
+		width: 85px;
+		height: 218px;
+		top: 278px;
+		left: 350px;
+	}
+	.k510a {
+		width: 70px;
+		height: 164px;
+		top: 333px;
+		left: 277px;
+	}
+	.k510b {
+		width: 52px;
+		height: 164px;
+		top: 333px;
+		left: 222px;
+	}
+	.after512 {
+		width: 86px;
+		height: 105px;
+		top: 83px;
+		left: 242px;
+	}
+	.corner {
+	}
+	.corridor {
+	}
+}
