@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { Link, Route, Routes } from 'react-router-dom'
 import { ReactSVG } from 'react-svg'
 import logout from '../../icons/log-out-grey.svg'
 import logo from '../../icons/main-logo.svg'
 import settings from '../../icons/settings.svg'
 import Employees from './employees/Employees'
+import PersonInfo from './personinfo/PersonInfo'
 import './summary.scss'
 
 const Summary = props => {
@@ -28,12 +30,20 @@ const Summary = props => {
 		)
 	}
 
+	const [name, setName] = useState('')
+
+	const updatePerson = value => {
+		setName(value)
+	}
+
 	useEffect(() => {}, [stdt, endt])
 
 	return (
 		<div className='summary'>
 			<div className='summary__menu_left'>
-				<ReactSVG src={logo} className='summary__menu_left-logo' />
+				<Link to='/'>
+					<ReactSVG src={logo} className='summary__menu_left-logo' />
+				</Link>
 				<input className='summary__menu_left-finder' placeholder='поиск...' />
 				<div className='summary__menu_left-links'>
 					<a href=''>Камеры</a>
@@ -74,7 +84,25 @@ const Summary = props => {
 						</div>
 					</div>
 					<div className='sheet__header_back'></div>
-					<Employees startDate={stdt} endDate={endt} />
+					<Routes>
+						<Route
+							path='/'
+							element={
+								<Employees
+									startDate={stdt}
+									endDate={endt}
+									sendName={updatePerson}
+								/>
+							}
+						/>
+						<Route
+							path='/:name'
+							element={
+								<PersonInfo name={name} startDate={stdt} endDate={endt} />
+							}
+						/>
+						<Route path='*' element={<div>Page not found</div>} />
+					</Routes>
 					<div className='sheet__footer'></div>
 				</div>
 			</div>

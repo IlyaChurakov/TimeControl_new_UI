@@ -4,17 +4,28 @@ import './personblock.scss'
 import ReportLine from './reportline/ReportLine'
 
 const PersonBlock = props => {
+	console.log(props.person)
 	return (
-		<div className='person__wrapper'>
+		<div
+			className='person__wrapper'
+			onClick={() => props.actionHandler(props.person.name)}
+		>
 			<Person
 				link={props.link}
 				name={props.person.name}
-				post={props.person.post}
+				post={props.person.short_name}
 			/>
 			<ReportLine
 				text='Количество опозданий'
-				percent={props.person.late_percent}
-				color={props.person.late_percent > 50 ? '#D0598F' : '#65b970'}
+				percent={{
+					late_cnt: props.person.late_cnt,
+					all_cnt: props.person.all_cnt,
+				}}
+				color={
+					(+props.person.late_cnt / +props.person.all_cnt) * 100 > 20
+						? '#D0598F'
+						: '#65b970'
+				}
 				margin='0 0 0 68px'
 			/>
 			{/* Нужно объект с временем перевести в БД в проценты */}
@@ -26,8 +37,8 @@ const PersonBlock = props => {
 			/>
 			<ReportLine
 				text='Процент нахождения в рабочей зоне'
-				percent={props.person.work_time_zone}
-				color={props.person.work_time_zone < 70 ? '#D0598F' : '#65b970'}
+				percent={props.person.round}
+				color={props.person.round < 70 ? '#D0598F' : '#65b970'}
 				margin='0 0 0 68px'
 			/>
 		</div>

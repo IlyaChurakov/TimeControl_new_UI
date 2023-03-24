@@ -14,12 +14,10 @@ const Employees = props => {
 		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
 		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
 
-		console.log(props.startDate, props.endDate)
-
 		const url =
 			props.startDate && props.endDate
-				? `http://localhost:8080/employeesStatistic/${props.startDate}/${props.endDate}`
-				: `http://localhost:8080/employeesStatistic/${dayBeforeYesterday}/${yesterday}`
+				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
+				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${dayBeforeYesterday}/${yesterday}`
 
 		await fetch(url)
 			.then(res => {
@@ -34,14 +32,20 @@ const Employees = props => {
 
 	useEffect(() => {
 		getTopManagers()
-		console.log(props.startDate, props.endDate)
 	}, [props.startDate, props.endDate])
 
 	return (
 		<div className='sheet__info'>
 			{persons.length ? (
 				persons.map((person, key) => {
-					return <PersonBlock link='/personinfo' key={key} person={person} />
+					return (
+						<PersonBlock
+							actionHandler={props.sendName}
+							link={`/employees/${person.name}`}
+							key={key}
+							person={person}
+						/>
+					)
 				})
 			) : (
 				<Loader />
