@@ -2,6 +2,7 @@ import React from 'react'
 import './reportLine.scss'
 
 const ReportLine = props => {
+	console.log(props.percent)
 	return (
 		<div
 			className='reportLine'
@@ -16,7 +17,7 @@ const ReportLine = props => {
 					style={{
 						width:
 							typeof props.percent === 'object'
-								? (+props.percent.late_cnt / +props.percent.all_cnt) * 100 + '%'
+								? (props.percent.late_cnt / props.percent.all_cnt) * 100 + '%'
 								: props.percent + '%',
 						backgroundColor: props.color,
 					}}
@@ -24,8 +25,8 @@ const ReportLine = props => {
 			</div>
 			<div className='reportLine__percent'>
 				{typeof props.percent === 'object'
-					? `${+props.percent.late_cnt} / ${+props.percent.all_cnt}`
-					: props.percent}
+					? `${props.percent.late_cnt} / ${+props.percent.all_cnt}`
+					: props.percent.split('.')[0] + '%'}
 			</div>
 		</div>
 	)

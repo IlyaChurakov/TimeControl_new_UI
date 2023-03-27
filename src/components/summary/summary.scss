@@ -110,6 +110,7 @@
 				box-sizing: border-box;
 				background-color: #e2e1e6;
 				position: fixed;
+				z-index: 10;
 				&_back {
 					height: 70px;
 					margin-bottom: 20px;
@@ -137,6 +138,8 @@
 				}
 			}
 			&__info {
+				height: 100%; // test
+				position: relative;
 				margin: 0 auto;
 				min-height: 60%;
 				margin-top: 0px;
@@ -146,6 +149,19 @@
 				gap: 2%;
 				grid-template-columns: 1fr 1fr 1fr;
 				justify-items: center;
+				&_person {
+					position: relative;
+					margin: 0 auto;
+					min-height: 60%;
+					margin-top: 0px;
+					margin-bottom: 30px;
+					width: 95%;
+					height: 100%;
+					display: grid;
+					grid-template-columns: 1fr;
+					grid-template-rows: 0.4fr 1.6fr;
+					justify-items: start;
+				}
 			}
 		}
 	}

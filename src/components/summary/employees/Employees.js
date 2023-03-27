@@ -3,7 +3,7 @@ import Loader from '../../loader/Loader'
 import PersonBlock from '../personblock/PersonBlock'
 
 const Employees = props => {
-	const [persons, setPersons] = useState([])
+	const [persons, setPersons] = useState(null)
 
 	const getTopManagers = async () => {
 		let now = new Date()
@@ -11,8 +11,10 @@ const Employees = props => {
 		let nowYear = now.getFullYear()
 		let nowMonth = now.getMonth() + 1
 
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
+		// let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
+		// let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
+		let dayBeforeYesterday = `2023-03-20`
+		let yesterday = `2023-03-21`
 
 		const url =
 			props.startDate && props.endDate
@@ -36,19 +38,23 @@ const Employees = props => {
 
 	return (
 		<div className='sheet__info'>
-			{persons.length ? (
-				persons.map((person, key) => {
-					return (
-						<PersonBlock
-							actionHandler={props.sendName}
-							link={`/employees/${person.name}`}
-							key={key}
-							person={person}
-						/>
-					)
-				})
+			{persons && persons.length !== 0 ? (
+				persons.length ? (
+					persons.map((person, key) => {
+						return (
+							<PersonBlock
+								actionHandler={props.sendName}
+								link={`/employees/${person.name}`}
+								key={key}
+								person={person}
+							/>
+						)
+					})
+				) : (
+					<Loader />
+				)
 			) : (
-				<Loader />
+				<div className='error'>За этот период данных нет</div>
 			)}
 		</div>
 	)

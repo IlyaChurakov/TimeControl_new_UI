@@ -4,6 +4,7 @@ import { ReactSVG } from 'react-svg'
 import logout from '../../icons/log-out-grey.svg'
 import logo from '../../icons/main-logo.svg'
 import settings from '../../icons/settings.svg'
+import Department from './department/Department'
 import Employees from './employees/Employees'
 import PersonInfo from './personinfo/PersonInfo'
 import './summary.scss'
@@ -31,9 +32,13 @@ const Summary = props => {
 	}
 
 	const [name, setName] = useState('')
+	const [department, setDepartment] = useState('')
 
 	const updatePerson = value => {
 		setName(value)
+	}
+	const updateDepartment = value => {
+		setDepartment(value)
 	}
 
 	useEffect(() => {}, [stdt, endt])
@@ -98,7 +103,23 @@ const Summary = props => {
 						<Route
 							path='/:name'
 							element={
-								<PersonInfo name={name} startDate={stdt} endDate={endt} />
+								<PersonInfo
+									name={name}
+									startDate={stdt}
+									endDate={endt}
+									sendName={updatePerson}
+								/>
+							}
+						/>
+						<Route
+							path='/departments/:department'
+							element={
+								<Department
+									department={department}
+									startDate={stdt}
+									endDate={endt}
+									sendDep={updateDepartment}
+								/>
 							}
 						/>
 						<Route path='*' element={<div>Page not found</div>} />

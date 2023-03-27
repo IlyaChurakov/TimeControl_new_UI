@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Loader from '../../loader/Loader'
 import PersonBlock from '../personblock/PersonBlock'
+import ReportLine from '../personblock/reportline/ReportLine'
 import './personinfo.scss'
 
 const PersonInfo = props => {
 	const [person, setPerson] = useState([])
 	const { name } = useParams()
 
-	const [departments, setDepartments] = useState([
-		{
-			department: 'Департамент инноваций и инжиниринга',
-			late_time: '60',
-		},
-		{
-			department: 'Департамент оценки техническго контроля',
-			late_time: '50',
-		},
-		{
-			department: 'Автоматизация и перспективные разработки',
-			late_time: '70',
-		},
-		{
-			department: 'Центр качества и поставок',
-			late_time: '40',
-		},
-	])
+	const [departments, setDepartments] = useState([])
 
 	const getPerson = async () => {
 		let now = new Date()
@@ -33,13 +17,16 @@ const PersonInfo = props => {
 		let nowYear = now.getFullYear()
 		let nowMonth = now.getMonth() + 1
 
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
+		// let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
+		// let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
+		let dayBeforeYesterday = `2023-03-20`
+		let yesterday = `2023-03-21`
 		const url =
 			props.startDate && props.endDate
 				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${props.startDate}/${props.endDate}/${name}`
 				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${dayBeforeYesterday}/${yesterday}/${name}`
+
+		console.log(url)
 
 		await fetch(url)
 			.then(res => {
@@ -53,7 +40,20 @@ const PersonInfo = props => {
 	}
 
 	const getDepartments = async () => {
-		const url = `http://${process.env.REACT_APP_SERVER_URL}/departmens/${props.name}`
+		let now = new Date()
+		let nowDay = now.getDate()
+		let nowYear = now.getFullYear()
+		let nowMonth = now.getMonth() + 1
+
+		// let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
+		// let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
+		let dayBeforeYesterday = `2023-03-20`
+		let yesterday = `2023-03-21`
+
+		const url =
+			props.startDate && props.endDate
+				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departments/${props.startDate}/${props.endDate}/${name}`
+				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departments/${dayBeforeYesterday}/${yesterday}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -68,27 +68,68 @@ const PersonInfo = props => {
 
 	useEffect(() => {
 		getPerson()
-		// getDepartments()
-	}, [])
+		getDepartments()
+	}, [props.startDate, props.endDate])
 
 	return (
-		<div className='sheet__info'>
-			<div>
-				{person.length ? (
+		<div className='sheet__info_person'>
+			{person && person.length !== 0 ? (
+				person.length && departments.length ? (
 					person.map((item, key) => {
-						return <PersonBlock key={key} person={item} />
+						return (
+							<PersonBlock
+								key={key}
+								person={item}
+								actionHandler={props.sendName}
+							/>
+						)
 					})
 				) : (
 					<Loader />
-				)}
-				{departments.map((item, key) => {
-					return (
-						<div key={key}>
-							<div>{item.department}</div>
-							<div>{item.late_time}</div>
-						</div>
-					)
-				})}
+				)
+			) : (
+				<div className='error'>За этот период данных нет</div>
+			)}
+
+			<div className='departments'>
+				{departments.length && person.length
+					? departments.map((item, key) => {
+							return (
+								<div key={key} className='departments__item'>
+									<div className='departments__item_dep'>
+										<Link
+											to={`/employees/departments/${item.department}`}
+											className='departments__item_dep-text'
+										>
+											{item.short_name}
+										</Link>
+										<ReportLine
+											text={'Количество опозданий'}
+											percent={{
+												all_cnt: item.all_cnt,
+												late_cnt: item.late_cnt,
+											}}
+											color={
+												(+item.late_cnt / +item.all_cnt) * 100 > 20
+													? '#D0598F'
+													: '#65b970'
+											}
+										/>
+										<ReportLine
+											text={'Среднее время нахождения в офисе'}
+											percent={item.avg_working_time}
+											color={item.avg_working_time < 70 ? '#D0598F' : '#65b970'}
+										/>
+										<ReportLine
+											text={'Процент нахождения в рабочей зоне'}
+											percent={item.va_work_zones}
+											color={item.va_work_zones < 70 ? '#D0598F' : '#65b970'}
+										/>
+									</div>
+								</div>
+							)
+					  })
+					: null}
 			</div>
 		</div>
 	)

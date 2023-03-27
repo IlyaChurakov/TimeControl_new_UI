@@ -4,11 +4,10 @@ import './personblock.scss'
 import ReportLine from './reportline/ReportLine'
 
 const PersonBlock = props => {
-	console.log(props.person)
 	return (
 		<div
 			className='person__wrapper'
-			onClick={() => props.actionHandler(props.person.name)}
+			// onClick={() => props.actionHandler(props.person.name)}
 		>
 			<Person
 				link={props.link}
@@ -28,7 +27,6 @@ const PersonBlock = props => {
 				}
 				margin='0 0 0 68px'
 			/>
-			{/* Нужно объект с временем перевести в БД в проценты */}
 			<ReportLine
 				text='Среднее время нахождения в офисе'
 				percent={props.person.avg_working_time}
