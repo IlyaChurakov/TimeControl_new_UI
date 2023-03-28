@@ -17,7 +17,11 @@ const ReportLine = props => {
 					style={{
 						width:
 							typeof props.percent === 'object'
-								? (props.percent.late_cnt / props.percent.all_cnt) * 100 + '%'
+								? props.percent &&
+								  props.percent.late_cnt &&
+								  props.percent.all_cnt
+									? (props.percent.late_cnt / props.percent.all_cnt) * 100 + '%'
+									: 0
 								: props.percent + '%',
 						backgroundColor: props.color,
 					}}
@@ -25,7 +29,9 @@ const ReportLine = props => {
 			</div>
 			<div className='reportLine__percent'>
 				{typeof props.percent === 'object'
-					? `${props.percent.late_cnt} / ${+props.percent.all_cnt}`
+					? props.percent && props.percent.late_cnt && props.percent.all_cnt
+						? `${props.percent.late_cnt} / ${props.percent.all_cnt}`
+						: 0
 					: props.percent.split('.')[0] + '%'}
 			</div>
 		</div>
