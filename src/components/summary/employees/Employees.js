@@ -11,10 +11,8 @@ const Employees = props => {
 		let nowYear = now.getFullYear()
 		let nowMonth = now.getMonth() + 1
 
-		// let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
-		// let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-		let dayBeforeYesterday = `2023-03-20`
-		let yesterday = `2023-03-21`
+		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
+		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
 
 		const url =
 			props.startDate && props.endDate
@@ -43,7 +41,7 @@ const Employees = props => {
 					persons.map((person, key) => {
 						return (
 							<PersonBlock
-								actionHandler={props.sendName}
+								icon={true}
 								link={`/employees/${person.name}`}
 								key={key}
 								person={person}

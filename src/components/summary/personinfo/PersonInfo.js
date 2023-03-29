@@ -17,10 +17,9 @@ const PersonInfo = props => {
 		let nowYear = now.getFullYear()
 		let nowMonth = now.getMonth() + 1
 
-		// let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
-		// let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-		let dayBeforeYesterday = `2023-03-20`
-		let yesterday = `2023-03-21`
+		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
+		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
+
 		const url =
 			props.startDate && props.endDate
 				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${props.startDate}/${props.endDate}/${name}`
@@ -45,10 +44,8 @@ const PersonInfo = props => {
 		let nowYear = now.getFullYear()
 		let nowMonth = now.getMonth() + 1
 
-		// let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 2}`
-		// let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-		let dayBeforeYesterday = `2023-03-20`
-		let yesterday = `2023-03-21`
+		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
+		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
 
 		const url =
 			props.startDate && props.endDate
@@ -73,11 +70,12 @@ const PersonInfo = props => {
 
 	return (
 		<div className='sheet__info_person'>
-			{person && person.length !== 0 ? (
+			{person && person.length && departments && departments.length !== 0 ? (
 				person.length && departments.length ? (
 					person.map((item, key) => {
 						return (
 							<PersonBlock
+								icon={true}
 								key={key}
 								person={item}
 								actionHandler={props.sendName}
@@ -98,7 +96,7 @@ const PersonInfo = props => {
 								<div key={key} className='departments__item'>
 									<div className='departments__item_dep'>
 										<Link
-											to={`/employees/departments/${item.department}`}
+											to={`/employees/departments/${item.short_name}`}
 											className='departments__item_dep-text'
 										>
 											{item.short_name}
@@ -122,8 +120,8 @@ const PersonInfo = props => {
 										/>
 										<ReportLine
 											text={'Процент нахождения в рабочей зоне'}
-											percent={item.va_work_zones}
-											color={item.va_work_zones < 70 ? '#D0598F' : '#65b970'}
+											percent={item.round}
+											color={item.round < 70 ? '#D0598F' : '#65b970'}
 										/>
 									</div>
 								</div>

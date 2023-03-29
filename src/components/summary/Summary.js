@@ -5,6 +5,7 @@ import logout from '../../icons/log-out-grey.svg'
 import logo from '../../icons/main-logo.svg'
 import settings from '../../icons/settings.svg'
 import Department from './department/Department'
+import Employee from './employee/Employee'
 import Employees from './employees/Employees'
 import PersonInfo from './personinfo/PersonInfo'
 import './summary.scss'
@@ -29,16 +30,6 @@ const Summary = props => {
 		setEndt(
 			endDate.current && endDate.current.value ? endDate.current.value : ''
 		)
-	}
-
-	const [name, setName] = useState('')
-	const [department, setDepartment] = useState('')
-
-	const updatePerson = value => {
-		setName(value)
-	}
-	const updateDepartment = value => {
-		setDepartment(value)
 	}
 
 	useEffect(() => {}, [stdt, endt])
@@ -92,35 +83,19 @@ const Summary = props => {
 					<Routes>
 						<Route
 							path='/'
-							element={
-								<Employees
-									startDate={stdt}
-									endDate={endt}
-									sendName={updatePerson}
-								/>
-							}
+							element={<Employees startDate={stdt} endDate={endt} />}
 						/>
 						<Route
 							path='/:name'
-							element={
-								<PersonInfo
-									name={name}
-									startDate={stdt}
-									endDate={endt}
-									sendName={updatePerson}
-								/>
-							}
+							element={<PersonInfo startDate={stdt} endDate={endt} />}
 						/>
 						<Route
 							path='/departments/:department'
-							element={
-								<Department
-									department={department}
-									startDate={stdt}
-									endDate={endt}
-									sendDep={updateDepartment}
-								/>
-							}
+							element={<Department startDate={stdt} endDate={endt} />}
+						/>
+						<Route
+							path='/employee/:name'
+							element={<Employee startDate={stdt} endDate={endt} />}
 						/>
 						<Route path='*' element={<div>Page not found</div>} />
 					</Routes>

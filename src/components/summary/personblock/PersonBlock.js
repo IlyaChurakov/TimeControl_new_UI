@@ -5,11 +5,9 @@ import ReportLine from './reportline/ReportLine'
 
 const PersonBlock = props => {
 	return (
-		<div
-			className='person__wrapper'
-			// onClick={() => props.actionHandler(props.person.name)}
-		>
+		<div className='person__wrapper'>
 			<Person
+				icon={props.icon}
 				link={props.link}
 				name={props.person.name}
 				post={props.person.short_name}

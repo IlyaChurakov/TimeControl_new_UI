@@ -7,7 +7,7 @@ import './person.scss'
 const Person = props => {
 	return (
 		<div className='person'>
-			<ReactSVG src={icon} className='person__icon' />
+			{props.icon ? <ReactSVG src={icon} className='person__icon' /> : null}
 			<Link to={props.link} className='person__name'>
 				{props.name}
 			</Link>
