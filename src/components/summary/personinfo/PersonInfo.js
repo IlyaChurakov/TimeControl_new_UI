@@ -64,6 +64,10 @@ const PersonInfo = props => {
 	}
 
 	useEffect(() => {
+		props.setLeaderName(name)
+	}, [])
+
+	useEffect(() => {
 		getPerson()
 		getDepartments()
 	}, [props.startDate, props.endDate])

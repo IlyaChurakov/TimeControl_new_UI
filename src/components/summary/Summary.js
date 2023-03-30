@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
 import { ReactSVG } from 'react-svg'
 import logout from '../../icons/log-out-grey.svg'
@@ -21,6 +21,10 @@ const Summary = props => {
 		endDate.current && endDate.current.value ? endDate.current.value : ''
 	)
 
+	const [name, setName] = useState(null)
+	const [leaderName, setLeaderName] = useState(null)
+	const [dep, setDep] = useState(null)
+
 	const changeValues = () => {
 		setStdt(
 			startDate.current && startDate.current.value
@@ -31,8 +35,6 @@ const Summary = props => {
 			endDate.current && endDate.current.value ? endDate.current.value : ''
 		)
 	}
-
-	useEffect(() => {}, [stdt, endt])
 
 	return (
 		<div className='summary'>
@@ -78,6 +80,19 @@ const Summary = props => {
 								onInput={changeValues}
 							/>
 						</div>
+						<div className='sheet__header_period-routes'>
+							<Link to={'/'}>Главная</Link>
+							<Link to={'/employees'}> / Сотрудники</Link>
+							{leaderName ? (
+								<Link to={`/employees/${leaderName}`}> / {leaderName}</Link>
+							) : null}
+							{dep ? (
+								<Link to={`/employees/departments/${dep}`}> / {dep}</Link>
+							) : null}
+							{name ? (
+								<Link to={`/employees/employee/${name}`}> / {name}</Link>
+							) : null}
+						</div>
 					</div>
 					<div className='sheet__header_back'></div>
 					<Routes>
@@ -87,15 +102,25 @@ const Summary = props => {
 						/>
 						<Route
 							path='/:name'
-							element={<PersonInfo startDate={stdt} endDate={endt} />}
+							element={
+								<PersonInfo
+									setLeaderName={setLeaderName}
+									startDate={stdt}
+									endDate={endt}
+								/>
+							}
 						/>
 						<Route
 							path='/departments/:department'
-							element={<Department startDate={stdt} endDate={endt} />}
+							element={
+								<Department setDep={setDep} startDate={stdt} endDate={endt} />
+							}
 						/>
 						<Route
 							path='/employee/:name'
-							element={<Employee startDate={stdt} endDate={endt} />}
+							element={
+								<Employee setName={setName} startDate={stdt} endDate={endt} />
+							}
 						/>
 						<Route path='*' element={<div>Page not found</div>} />
 					</Routes>

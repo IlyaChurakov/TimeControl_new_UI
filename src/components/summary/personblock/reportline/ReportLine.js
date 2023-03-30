@@ -2,7 +2,6 @@ import React from 'react'
 import './reportLine.scss'
 
 const ReportLine = props => {
-	console.log(props.percent)
 	return (
 		<div
 			className='reportLine'

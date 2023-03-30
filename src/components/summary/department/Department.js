@@ -61,6 +61,10 @@ const Department = props => {
 	}
 
 	useEffect(() => {
+		props.setDep(department)
+	}, [])
+
+	useEffect(() => {
 		getDepartment()
 		getDepartmentEmployees()
 	}, [props.startDate, props.endDate])

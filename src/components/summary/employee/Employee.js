@@ -30,7 +30,6 @@ const Employee = props => {
 			})
 			.then(resBody => {
 				setEmployee(resBody)
-				console.log(resBody)
 			})
 			.catch(err => console.log(err))
 	}
@@ -54,7 +53,6 @@ const Employee = props => {
 			})
 			.then(resBody => {
 				setCameraEvents(resBody)
-				console.log(resBody)
 			})
 			.catch(err => console.log(err))
 	}
@@ -82,6 +80,10 @@ const Employee = props => {
 			})
 			.catch(err => console.log(err))
 	}
+
+	useEffect(() => {
+		props.setName(name)
+	}, [])
 
 	useEffect(() => {
 		getEmployee()
@@ -124,7 +126,10 @@ const Employee = props => {
 											{item.name}
 										</div>
 										<div className='employee__camera_event-date'>
-											{item.to_char}
+											{item.to_char.split(' ')[0]}
+										</div>
+										<div className='employee__camera_event-time'>
+											{item.to_char.split(' ')[1]}
 										</div>
 									</div>
 								)
@@ -140,7 +145,12 @@ const Employee = props => {
 											{item.event_type}
 										</div>
 										<div className='employee__door_event-name'>{item.name}</div>
-										<div className='employee__door_event-date'>{item.date}</div>
+										<div className='employee__door_event-date'>
+											{item.date.split(' ')[0]}
+										</div>
+										<div className='employee__door_event-time'>
+											{item.date.split(' ')[1]}
+										</div>
 									</div>
 								)
 						  })

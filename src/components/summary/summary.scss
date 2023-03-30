@@ -135,6 +135,13 @@
 						line-height: 20px;
 						color: #595961;
 					}
+					&-routes {
+						a {
+							text-decoration: none;
+							font-size: 14px;
+							color: #595961;
+						}
+					}
 				}
 			}
 			&__info {

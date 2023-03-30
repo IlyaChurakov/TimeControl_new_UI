@@ -25,7 +25,6 @@ const Employees = props => {
 			})
 			.then(resBody => {
 				setPersons(resBody)
-				console.log(resBody)
 			})
 			.catch(err => console.log(err))
 	}
