@@ -22,7 +22,11 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
 		gap: 20px;
-		align-items: center;
+		align-items: start;
 		justify-items: center;
+		&_employee {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }

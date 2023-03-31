@@ -61,6 +61,19 @@ const Summary = props => {
 			<div className='summary__page'>
 				<div className='sheet'>
 					<div className='sheet__header'>
+						<div className='sheet__header_period-routes'>
+							<Link to={'/'}>Главная</Link>
+							<Link to={'/employees'}> / Сотрудники</Link>
+							{leaderName ? (
+								<Link to={`/employees/${leaderName}`}> / {leaderName}</Link>
+							) : null}
+							{dep ? (
+								<Link to={`/employees/departments/${dep}`}> / {dep}</Link>
+							) : null}
+							{name ? (
+								<Link to={`/employees/employee/${name}`}> / {name}</Link>
+							) : null}
+						</div>
 						<div className='sheet__header_period'>
 							<div className='sheet__header_period-title'>Период:</div>
 							<div className='sheet__header_period-from'>с</div>
@@ -80,31 +93,28 @@ const Summary = props => {
 								onInput={changeValues}
 							/>
 						</div>
-						<div className='sheet__header_period-routes'>
-							<Link to={'/'}>Главная</Link>
-							<Link to={'/employees'}> / Сотрудники</Link>
-							{leaderName ? (
-								<Link to={`/employees/${leaderName}`}> / {leaderName}</Link>
-							) : null}
-							{dep ? (
-								<Link to={`/employees/departments/${dep}`}> / {dep}</Link>
-							) : null}
-							{name ? (
-								<Link to={`/employees/employee/${name}`}> / {name}</Link>
-							) : null}
-						</div>
 					</div>
 					<div className='sheet__header_back'></div>
 					<Routes>
 						<Route
 							path='/'
-							element={<Employees startDate={stdt} endDate={endt} />}
+							element={
+								<Employees
+									setLeaderName={setLeaderName}
+									setDep={setDep}
+									setName={setName}
+									startDate={stdt}
+									endDate={endt}
+								/>
+							}
 						/>
 						<Route
 							path='/:name'
 							element={
 								<PersonInfo
 									setLeaderName={setLeaderName}
+									setDep={setDep}
+									setName={setName}
 									startDate={stdt}
 									endDate={endt}
 								/>
@@ -113,7 +123,12 @@ const Summary = props => {
 						<Route
 							path='/departments/:department'
 							element={
-								<Department setDep={setDep} startDate={stdt} endDate={endt} />
+								<Department
+									setDep={setDep}
+									setName={setName}
+									startDate={stdt}
+									endDate={endt}
+								/>
 							}
 						/>
 						<Route

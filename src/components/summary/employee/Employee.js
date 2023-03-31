@@ -21,8 +21,8 @@ const Employee = props => {
 
 		const url =
 			props.startDate && props.endDate
-				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${props.startDate}/${props.endDate}/${name}`
-				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${dayBeforeYesterday}/${yesterday}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -44,8 +44,8 @@ const Employee = props => {
 
 		const url =
 			props.startDate && props.endDate
-				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${props.startDate}/${props.endDate}/${name}`
-				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${dayBeforeYesterday}/${yesterday}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -67,8 +67,8 @@ const Employee = props => {
 
 		const url =
 			props.startDate && props.endDate
-				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${props.startDate}/${props.endDate}/${name}`
-				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${dayBeforeYesterday}/${yesterday}/${name}`
 
 		await fetch(url)
 			.then(res => {

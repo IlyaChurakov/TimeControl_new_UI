@@ -19,8 +19,8 @@ const Department = props => {
 
 		const url =
 			props.startDate && props.endDate
-				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${props.startDate}/${props.endDate}/${department}`
-				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${dayBeforeYesterday}/${yesterday}/${department}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${props.startDate}/${props.endDate}/${department}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${dayBeforeYesterday}/${yesterday}/${department}`
 
 		console.log(url)
 
@@ -46,8 +46,8 @@ const Department = props => {
 
 		const url =
 			props.startDate && props.endDate
-				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${props.startDate}/${props.endDate}/${department}`
-				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${dayBeforeYesterday}/${yesterday}/${department}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${props.startDate}/${props.endDate}/${department}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${dayBeforeYesterday}/${yesterday}/${department}`
 
 		await fetch(url)
 			.then(res => {
@@ -62,6 +62,7 @@ const Department = props => {
 
 	useEffect(() => {
 		props.setDep(department)
+		props.setName('')
 	}, [])
 
 	useEffect(() => {

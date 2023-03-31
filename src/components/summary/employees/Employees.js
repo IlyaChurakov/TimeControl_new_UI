@@ -16,8 +16,8 @@ const Employees = props => {
 
 		const url =
 			props.startDate && props.endDate
-				? `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
-				: `http://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${dayBeforeYesterday}/${yesterday}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${dayBeforeYesterday}/${yesterday}`
 
 		await fetch(url)
 			.then(res => {
@@ -32,6 +32,12 @@ const Employees = props => {
 	useEffect(() => {
 		getTopManagers()
 	}, [props.startDate, props.endDate])
+
+	useEffect(() => {
+		props.setLeaderName('')
+		props.setDep('')
+		props.setName('')
+	}, [])
 
 	return (
 		<div className='sheet__info'>
