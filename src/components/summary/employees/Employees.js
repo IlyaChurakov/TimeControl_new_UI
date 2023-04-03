@@ -5,19 +5,15 @@ import PersonBlock from '../personblock/PersonBlock'
 const Employees = props => {
 	const [persons, setPersons] = useState(null)
 
+	const { startPeriod, endPeriod } = props.getDate(7)
+
 	const getTopManagers = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${dayBeforeYesterday}/${yesterday}`
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${startPeriod}/${endPeriod}`
+
+		console.log(url)
 
 		await fetch(url)
 			.then(res => {
@@ -30,19 +26,19 @@ const Employees = props => {
 	}
 
 	useEffect(() => {
-		getTopManagers()
-	}, [props.startDate, props.endDate])
-
-	useEffect(() => {
 		props.setLeaderName('')
 		props.setDep('')
 		props.setName('')
-	}, [])
+	}, []) // responsible for the navigation link
+
+	useEffect(() => {
+		getTopManagers()
+	}, [props.startDate, props.endDate]) // responsible for updating of the time periods
 
 	return (
 		<div className='sheet__info'>
-			{persons && persons.length !== 0 ? (
-				persons.length ? (
+			{persons ? (
+				persons.length !== 0 ? (
 					persons.map((person, key) => {
 						return (
 							<PersonBlock
@@ -54,10 +50,10 @@ const Employees = props => {
 						)
 					})
 				) : (
-					<Loader />
+					<div className='error'>За этот период данных нет</div>
 				)
 			) : (
-				<div className='error'>За этот период данных нет</div>
+				<Loader />
 			)}
 		</div>
 	)

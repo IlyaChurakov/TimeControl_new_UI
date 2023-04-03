@@ -45,6 +45,33 @@
 				text-decoration: none;
 				color: #fff;
 			}
+			.map__buttons {
+				display: flex;
+				justify-content: start;
+				width: 100%;
+				grid-column-start: 1;
+				grid-column-end: 4;
+				height: 50px;
+				align-items: center;
+				flex-direction: column;
+				&_item {
+					background-color: #ffffff;
+					height: 30px;
+					width: 140px;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					color: #595961;
+					text-decoration: none;
+					border-radius: 10px;
+					cursor: pointer;
+					font-size: 16px;
+					margin-bottom: 20px;
+					&:hover {
+						transform: scale(1.1);
+					}
+				}
+			}
 		}
 	}
 	&__menu_right {

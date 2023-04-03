@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Loader from '../../loader/Loader'
 import PersonBlock from '../personblock/PersonBlock'
 import './department.scss'
 
 const Department = props => {
 	const { department } = useParams()
-	const [employees, setEmployees] = useState([])
-	const [dep, setDep] = useState([])
+	const [employees, setEmployees] = useState(null)
+	const [dep, setDep] = useState(null)
+
+	const { startPeriod, endPeriod } = props.getDate(7)
 
 	const getDepartment = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}`
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${props.startDate}/${props.endDate}/${department}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${dayBeforeYesterday}/${yesterday}/${department}`
-
-		console.log(url)
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/department/${props.startDate}/${props.endDate}/${department}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/department/${startPeriod}/${endPeriod}/${department}`
 
 		await fetch(url)
 			.then(res => {
@@ -36,18 +29,10 @@ const Department = props => {
 	}
 
 	const getDepartmentEmployees = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${props.startDate}/${props.endDate}/${department}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${dayBeforeYesterday}/${yesterday}/${department}`
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${props.startDate}/${props.endDate}/${department}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${startPeriod}/${endPeriod}/${department}`
 
 		await fetch(url)
 			.then(res => {
@@ -63,18 +48,19 @@ const Department = props => {
 	useEffect(() => {
 		props.setDep(department)
 		props.setName('')
-	}, [])
+	}, []) // responsible for the navigation link
 
 	useEffect(() => {
 		getDepartment()
 		getDepartmentEmployees()
-	}, [props.startDate, props.endDate])
+	}, [props.startDate, props.endDate]) // responsible for updating of the time periods
 
 	return (
 		<div className='department'>
 			<div className='department__title'>
-				{dep && dep.length && employees && employees.length
-					? dep.map((item, key) => {
+				{dep && employees ? (
+					dep.length !== 0 && employees.length !== 0 ? (
+						dep.map((item, key) => {
 							return (
 								<PersonBlock
 									key={key}
@@ -88,23 +74,30 @@ const Department = props => {
 									}}
 								/>
 							)
-					  })
-					: null}
+						})
+					) : (
+						<div className='error'>За этот период данных нет</div>
+					)
+				) : (
+					<Loader />
+				)}
 			</div>
 
 			<div className='department__employees'>
-				{employees.length
-					? employees.map((item, key) => {
-							return (
-								<div className='department__employees_employee' key={key}>
-									<PersonBlock
-										icon={true}
-										person={item}
-										link={`/employees/employee/${item.name}`}
-									/>
-								</div>
-							)
-					  })
+				{dep && employees
+					? employees.length
+						? employees.map((item, key) => {
+								return (
+									<div className='department__employees_employee' key={key}>
+										<PersonBlock
+											icon={true}
+											person={item}
+											link={`/employees/employee/${item.name}`}
+										/>
+									</div>
+								)
+						  })
+						: null
 					: null}
 			</div>
 		</div>

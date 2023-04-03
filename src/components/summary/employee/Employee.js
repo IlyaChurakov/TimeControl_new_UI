@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Loader from '../../loader/Loader'
 import PersonBlock from '../personblock/PersonBlock'
 import './employee.scss'
 
 const Employee = props => {
 	const { name } = useParams()
+	const [cameraEvents, setCameraEvents] = useState(null)
+	const [doorEvents, setDoorEvents] = useState(null)
+	const [employee, setEmployee] = useState(null)
 
-	const [cameraEvents, setCameraEvents] = useState([])
-	const [doorEvents, setDoorEvents] = useState([])
-	const [employee, setEmployee] = useState([])
+	const { startPeriod, endPeriod } = props.getDate(7)
 
 	const getEmployee = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${props.startDate}/${props.endDate}/${name}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employee/${props.startDate}/${props.endDate}/${name}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employee/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -34,18 +28,10 @@ const Employee = props => {
 			.catch(err => console.log(err))
 	}
 	const getEmployeeCameraEvents = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${props.startDate}/${props.endDate}/${name}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${props.startDate}/${props.endDate}/${name}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -57,18 +43,10 @@ const Employee = props => {
 			.catch(err => console.log(err))
 	}
 	const getEmployeeDoorEvents = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${props.startDate}/${props.endDate}/${name}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${props.startDate}/${props.endDate}/${name}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -83,34 +61,38 @@ const Employee = props => {
 
 	useEffect(() => {
 		props.setName(name)
-	}, [])
+	}, []) // responsible for the navigation link
 
 	useEffect(() => {
 		getEmployee()
 		getEmployeeCameraEvents()
 		getEmployeeDoorEvents()
-	}, [props.startDate, props.endDate])
+	}, [props.startDate, props.endDate]) // responsible for updating of the time periods
 
 	return (
 		<div className='employee'>
-			{employee.length ? (
-				employee.map((item, key) => {
-					return (
-						<PersonBlock
-							key={key}
-							icon={true}
-							person={{
-								late_cnt: item.late_cnt,
-								all_cnt: item.all_cnt,
-								name: item.name,
-								avg_working_time: item.avg_working_time,
-								round: item.round,
-							}}
-						/>
-					)
-				})
+			{employee ? (
+				employee.length !== 0 ? (
+					employee.map((item, key) => {
+						return (
+							<PersonBlock
+								key={key}
+								icon={true}
+								person={{
+									late_cnt: item.late_cnt,
+									all_cnt: item.all_cnt,
+									name: item.name,
+									avg_working_time: item.avg_working_time,
+									round: item.round,
+								}}
+							/>
+						)
+					})
+				) : (
+					<div className='error'>Данных по сотруднику нет</div>
+				)
 			) : (
-				<div className='error'>Данных по сотруднику нет</div>
+				<Loader />
 			)}
 			<div className='employee__wrapper'>
 				<div className='employee__wrapper_titles'>
@@ -118,8 +100,9 @@ const Employee = props => {
 					<div className='employee__wrapper_titles-title'>СКУД</div>
 				</div>
 				<div className='employee__camera'>
-					{cameraEvents.length && employee.length && doorEvents.length
-						? cameraEvents.map((item, key) => {
+					{employee && cameraEvents && doorEvents ? (
+						cameraEvents.length && employee.length && doorEvents.length ? (
+							cameraEvents.map((item, key) => {
 								return (
 									<div key={key} className='employee__camera_event'>
 										<div className='employee__camera_event-name'>
@@ -133,12 +116,18 @@ const Employee = props => {
 										</div>
 									</div>
 								)
-						  })
-						: null}
+							})
+						) : (
+							<div className='error'>Событий по камерам нет</div>
+						)
+					) : (
+						<Loader />
+					)}
 				</div>
 				<div className='employee__door'>
-					{doorEvents.length && cameraEvents.length && employee.length
-						? doorEvents.map((item, key) => {
+					{employee && cameraEvents && doorEvents ? (
+						doorEvents.length && cameraEvents.length && employee.length ? (
+							doorEvents.map((item, key) => {
 								return (
 									<div key={key} className='employee__camera_event'>
 										<div className='employee__door_event-type'>
@@ -153,8 +142,13 @@ const Employee = props => {
 										</div>
 									</div>
 								)
-						  })
-						: null}
+							})
+						) : (
+							<div className='error'>Событий по СКУД нет</div>
+						)
+					) : (
+						<Loader />
+					)}
 				</div>
 			</div>
 		</div>

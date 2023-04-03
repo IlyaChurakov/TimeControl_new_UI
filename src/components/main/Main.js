@@ -29,28 +29,28 @@ const Main = () => {
 						<div className='blocks__block_text'>To be continued...</div>
 					</div>
 					<Block
-						link='/map3'
+						link='/employees/map/3'
 						filled='filled'
 						title='Карта'
 						subtitle='3 этаж'
 						descr='Местоположение сотрудников'
 					/>
 					<Block
-						link='/map4'
+						link='/employees/map/4'
 						filled='filled'
 						title='Карта'
 						subtitle='4 этаж'
 						descr='Местоположение сотрудников'
 					/>
 					<Block
-						link='/map5'
+						link='/employees/map/5'
 						filled='filled'
 						title='Карта'
 						subtitle='5 этаж'
 						descr='Местоположение сотрудников'
 					/>
 					<Block
-						link='/map6'
+						link='/employees/map/6'
 						filled='filled'
 						title='Карта'
 						subtitle='6 этаж'

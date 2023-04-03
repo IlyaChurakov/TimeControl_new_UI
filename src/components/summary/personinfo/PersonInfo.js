@@ -6,26 +6,17 @@ import ReportLine from '../personblock/reportline/ReportLine'
 import './personinfo.scss'
 
 const PersonInfo = props => {
-	const [person, setPerson] = useState([])
 	const { name } = useParams()
+	const [person, setPerson] = useState(null)
+	const [departments, setDepartments] = useState(null)
 
-	const [departments, setDepartments] = useState([])
+	const { startPeriod, endPeriod } = props.getDate(7)
 
 	const getPerson = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${props.startDate}/${props.endDate}/${name}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${dayBeforeYesterday}/${yesterday}/${name}`
-
-		console.log(url)
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${props.startDate}/${props.endDate}/${name}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -39,18 +30,10 @@ const PersonInfo = props => {
 	}
 
 	const getDepartments = async () => {
-		let now = new Date()
-		let nowDay = now.getDate()
-		let nowYear = now.getFullYear()
-		let nowMonth = now.getMonth() + 1
-
-		let dayBeforeYesterday = `${nowYear}-0${nowMonth}-${nowDay - 7}` // week
-		let yesterday = `${nowYear}-0${nowMonth}-${nowDay - 1}`
-
 		const url =
 			props.startDate && props.endDate
-				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departments/${props.startDate}/${props.endDate}/${name}`
-				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departments/${dayBeforeYesterday}/${yesterday}/${name}`
+				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departments/${props.startDate}/${props.endDate}/${name}`
+				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departments/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -67,17 +50,17 @@ const PersonInfo = props => {
 		props.setLeaderName(name)
 		props.setDep('')
 		props.setName('')
-	}, [])
+	}, []) // responsible for the navigation link
 
 	useEffect(() => {
 		getPerson()
 		getDepartments()
-	}, [props.startDate, props.endDate])
+	}, [props.startDate, props.endDate]) // responsible for updating of the time periods
 
 	return (
 		<div className='sheet__info_person'>
-			{person && person.length && departments && departments.length !== 0 ? (
-				person.length && departments.length ? (
+			{person && departments ? (
+				person.length !== 0 && departments.length !== 0 ? (
 					person.map((item, key) => {
 						return (
 							<PersonBlock
@@ -89,15 +72,16 @@ const PersonInfo = props => {
 						)
 					})
 				) : (
-					<Loader />
+					<div className='error'>За этот период данных нет</div>
 				)
 			) : (
-				<div className='error'>За этот период данных нет</div>
+				<Loader />
 			)}
 
 			<div className='departments'>
-				{departments.length && person.length
-					? departments.map((item, key) => {
+				{person && departments ? (
+					departments.length !== 0 && person.length !== 0 ? (
+						departments.map((item, key) => {
 							return (
 								<div key={key} className='departments__item'>
 									<div className='departments__item_dep'>
@@ -132,8 +116,11 @@ const PersonInfo = props => {
 									</div>
 								</div>
 							)
-					  })
-					: null}
+						})
+					) : null
+				) : (
+					<Loader />
+				)}
 			</div>
 		</div>
 	)
