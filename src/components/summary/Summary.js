@@ -61,19 +61,77 @@ const Summary = () => {
 
 	const { startPeriod, endPeriod } = getDate(7)
 
+	const [inputClass, setInputClass] = useState('')
+	const [list, setList] = useState(null)
+
+	const input = useRef()
+
+	const setValue = e => {
+		input.current.value = e.target.outerText
+		changeInput()
+		setInputClass('')
+		findPersonClick()
+	}
+	const changeInput = async () => {
+		setInputClass('input__visible')
+
+		await fetch(`https://localhost:8080/finder/${input.current.value}`)
+			.then(res => {
+				return res.json()
+			})
+			.then(resBody => {
+				console.log(resBody)
+				setList(resBody) // создать роут в апи с поиском по бд
+				// обновлять список
+			})
+
+		console.log('change')
+	}
+	const findPersonClick = () => {
+		console.log('Find')
+	}
+	const findPerson = e => {
+		if (e.key == 'Enter') {
+			console.log('Find')
+		}
+	}
+
 	return (
 		<div className='summary'>
 			<div className='summary__menu_left'>
 				<Link to='/'>
 					<ReactSVG src={logo} className='summary__menu_left-logo' />
 				</Link>
-				<input className='summary__menu_left-finder' placeholder='поиск...' />
+				<div className='input__wrapper'>
+					<input
+						className='summary__menu_left-finder'
+						placeholder='поиск...'
+						onChange={changeInput}
+						onKeyDown={e => findPerson(e)}
+						ref={input}
+					/>
+					<div className={`input__list ${inputClass}`}>
+						{list
+							? list.map((item, key) => {
+									return (
+										<Link
+											to={`/employees/employee/${item.name}`}
+											key={key}
+											onClick={e => setValue(e)}
+										>
+											{item.name}
+										</Link>
+									)
+							  })
+							: null}
+					</div>
+				</div>
 				<div className='summary__menu_left-links'>
 					<div className='map__buttons'>
-						<Link to={'/employees/map/4'} className='map__buttons_item'>
+						<Link to={'/employees/map/3'} className='map__buttons_item'>
 							Карта 3 этажа
 						</Link>
-						<Link to={'/employees/map/3'} className='map__buttons_item'>
+						<Link to={'/employees/map/4'} className='map__buttons_item'>
 							Карта 4 этажа
 						</Link>
 						<Link to={'/employees/map/5'} className='map__buttons_item'>

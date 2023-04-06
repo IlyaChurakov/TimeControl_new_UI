@@ -55,39 +55,39 @@ const Map = props => {
 						svg.setAttribute('style', 'width: 1200px')
 					}}
 				/>
-				{peopleNum
-					? peopleNum.length !== 0
-						? peopleNum.map((item, key) => {
-								return (
-									<div
-										key={key}
-										className={`people people__${
-											item.json_build_object
-												? item.json_build_object.area
-												: null
-										}`}
-									>
-										<div className='people__list'>
-											{item.json_build_object
-												? item.json_build_object.employees.map((emp, key) => {
-														return (
-															<div key={key} className='people__list_item'>
-																{`${key + 1}) ${emp}`}
-															</div>
-														)
-												  })
-												: null}
-										</div>
-										<div className='people__circle'>
-											{item.json_build_object
-												? item.json_build_object.count
-												: null}
-										</div>
+				{peopleNum ? (
+					peopleNum.length ? (
+						peopleNum.map((item, key) => {
+							return (
+								<div
+									key={key}
+									className={`people people__${
+										item.json_build_object ? item.json_build_object.area : null
+									}`}
+								>
+									<div className='people__list'>
+										{item.json_build_object
+											? item.json_build_object.employees.map((emp, key) => {
+													return (
+														<div key={key} className='people__list_item'>
+															{`${key + 1}) ${emp}`}
+														</div>
+													)
+											  })
+											: null}
 									</div>
-								)
-						  })
-						: null
-					: null}
+									<div className='people__circle'>
+										{item.json_build_object
+											? item.json_build_object.count
+											: null}
+									</div>
+								</div>
+							)
+						})
+					) : (
+						<div className='loading'>Loading...</div>
+					)
+				) : null}
 			</div>
 		</div>
 	)

@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.scss'
 import Main from './components/main/Main'
-// import Map from './components/summary/map/Map'
 import Summary from './components/summary/Summary'
 
 function App() {
