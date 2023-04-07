@@ -9,6 +9,7 @@ const Employee = props => {
 	const [cameraEvents, setCameraEvents] = useState(null)
 	const [doorEvents, setDoorEvents] = useState(null)
 	const [employee, setEmployee] = useState(null)
+	const [position, setPosition] = useState(null)
 
 	const { startPeriod, endPeriod } = props.getDate(7)
 
@@ -58,16 +59,30 @@ const Employee = props => {
 			})
 			.catch(err => console.log(err))
 	}
+	const getPosition = async () => {
+		const url = `https://rt-v-skid.atpr.local:8080/position/${name}`
+
+		await fetch(url)
+			.then(res => {
+				return res.json()
+			})
+			.then(resBody => {
+				setPosition(resBody)
+				console.log(resBody)
+			})
+			.catch(err => console.log(err))
+	}
 
 	useEffect(() => {
 		props.setName(name)
-	}, []) // responsible for the navigation link
+		getPosition()
+	}, [employee]) // responsible for the navigation link
 
 	useEffect(() => {
 		getEmployee()
 		getEmployeeCameraEvents()
 		getEmployeeDoorEvents()
-	}, [props.startDate, props.endDate]) // responsible for updating of the time periods
+	}, [props.startDate, props.endDate, name]) // responsible for updating of the time periods
 
 	return (
 		<div className='employee'>
@@ -97,6 +112,9 @@ const Employee = props => {
 			<div className='employee__wrapper'>
 				<div className='employee__wrapper_titles'>
 					<div className='employee__wrapper_titles-title'>Камеры</div>
+					<div className='employee__wrapper_titles-position'>
+						{position ? (position.length ? position[0].locate : null) : null}
+					</div>
 					<div className='employee__wrapper_titles-title'>СКУД</div>
 				</div>
 				<div className='employee__camera'>

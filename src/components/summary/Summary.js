@@ -66,35 +66,48 @@ const Summary = () => {
 
 	const input = useRef()
 
+	const clearValue = () => {
+		input.current.value = ''
+		changeInput()
+		setInputClass('')
+		// findPersonClick()
+	}
 	const setValue = e => {
 		input.current.value = e.target.outerText
 		changeInput()
 		setInputClass('')
-		findPersonClick()
+		// findPersonClick()
 	}
 	const changeInput = async () => {
 		setInputClass('input__visible')
 
-		await fetch(`https://localhost:8080/finder/${input.current.value}`)
-			.then(res => {
-				return res.json()
-			})
-			.then(resBody => {
-				console.log(resBody)
-				setList(resBody) // создать роут в апи с поиском по бд
-				// обновлять список
-			})
-
-		console.log('change')
-	}
-	const findPersonClick = () => {
-		console.log('Find')
-	}
-	const findPerson = e => {
-		if (e.key == 'Enter') {
-			console.log('Find')
+		if (input.current.value) {
+			await fetch(
+				`https://rt-v-skid.atpr.local:8080/finder/${input.current.value}`
+			)
+				.then(res => {
+					return res.json()
+				})
+				.then(resBody => {
+					console.log(resBody)
+					if (resBody.length) {
+						setList(resBody)
+					} else {
+						setList(null)
+					}
+					// создать роут в апи с поиском по бд
+					// обновлять список
+				})
 		}
 	}
+	// const findPersonClick = () => {
+	// 	console.log('Find')
+	// }
+	// const findPerson = e => {
+	// 	if (e.key == 'Enter') {
+	// 		console.log('Find')
+	// 	}
+	// }
 
 	return (
 		<div className='summary'>
@@ -107,24 +120,28 @@ const Summary = () => {
 						className='summary__menu_left-finder'
 						placeholder='поиск...'
 						onChange={changeInput}
-						onKeyDown={e => findPerson(e)}
+						// onKeyDown={e => findPerson(e)}
 						ref={input}
 					/>
-					<div className={`input__list ${inputClass}`}>
-						{list
-							? list.map((item, key) => {
-									return (
-										<Link
-											to={`/employees/employee/${item.name}`}
-											key={key}
-											onClick={e => setValue(e)}
-										>
-											{item.name}
-										</Link>
-									)
-							  })
-							: null}
+					<div className='input__clear' onClick={clearValue}>
+						&#10006;
 					</div>
+
+					{list ? (
+						<div className={`input__list ${inputClass}`}>
+							{list.map((item, key) => {
+								return (
+									<Link
+										to={`/employees/employee/${item.name}`}
+										key={key}
+										onClick={e => setValue(e)}
+									>
+										{item.name}
+									</Link>
+								)
+							})}
+						</div>
+					) : null}
 				</div>
 				<div className='summary__menu_left-links'>
 					<div className='map__buttons'>
@@ -240,7 +257,16 @@ const Summary = () => {
 								/>
 							}
 						/>
-						<Route path='/map/:floor' element={<Map />} />
+						<Route
+							path='/map/:floor'
+							element={
+								<Map
+									setDep={setDep}
+									setName={setName}
+									setLeaderName={setLeaderName}
+								/>
+							}
+						/>
 						<Route
 							path='*'
 							element={<div className='error'>Page not found</div>}

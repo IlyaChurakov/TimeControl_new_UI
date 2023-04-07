@@ -29,7 +29,14 @@ const Map = props => {
 
 	useEffect(() => {
 		getPositions(floor)
+		console.log(peopleNum)
 	}, [floor, st])
+
+	useEffect(() => {
+		props.setDep('')
+		props.setLeaderName('')
+		props.setName('')
+	}, [])
 
 	setTimeout(() => {
 		setSt(st + 1)
