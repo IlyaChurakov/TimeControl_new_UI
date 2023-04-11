@@ -83,7 +83,7 @@ const Summary = () => {
 
 		if (input.current.value) {
 			await fetch(
-				`https://rt-v-skid.atpr.local:8080/finder/${input.current.value}`
+				`https://${process.env.REACT_APP_SERVER_URL}:8080/finder/${input.current.value}`
 			)
 				.then(res => {
 					return res.json()

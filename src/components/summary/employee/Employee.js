@@ -16,8 +16,8 @@ const Employee = props => {
 	const getEmployee = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employee/${props.startDate}/${props.endDate}/${name}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employee/${startPeriod}/${endPeriod}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employee/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -31,8 +31,8 @@ const Employee = props => {
 	const getEmployeeCameraEvents = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${props.startDate}/${props.endDate}/${name}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${startPeriod}/${endPeriod}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeCameraEvents/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -46,8 +46,8 @@ const Employee = props => {
 	const getEmployeeDoorEvents = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${props.startDate}/${props.endDate}/${name}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${startPeriod}/${endPeriod}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeeDoorEvents/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -60,7 +60,7 @@ const Employee = props => {
 			.catch(err => console.log(err))
 	}
 	const getPosition = async () => {
-		const url = `https://rt-v-skid.atpr.local:8080/position/${name}`
+		const url = `https://${process.env.REACT_APP_SERVER_URL}:8080/position/${name}`
 
 		await fetch(url)
 			.then(res => {

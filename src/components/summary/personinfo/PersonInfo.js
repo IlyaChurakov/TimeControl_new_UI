@@ -15,8 +15,8 @@ const PersonInfo = props => {
 	const getPerson = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${props.startDate}/${props.endDate}/${name}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${startPeriod}/${endPeriod}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/personStatistic/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {
@@ -32,8 +32,8 @@ const PersonInfo = props => {
 	const getDepartments = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departments/${props.startDate}/${props.endDate}/${name}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departments/${startPeriod}/${endPeriod}/${name}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departments/${props.startDate}/${props.endDate}/${name}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departments/${startPeriod}/${endPeriod}/${name}`
 
 		await fetch(url)
 			.then(res => {

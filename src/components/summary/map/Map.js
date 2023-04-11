@@ -13,7 +13,7 @@ const Map = props => {
 	const { floor } = useParams()
 
 	const getPositions = async floor => {
-		const url = `https://rt-v-skid.atpr.local:8080/positions/${floor}`
+		const url = `https://${process.env.REACT_APP_SERVER_URL}:8080/positions/${floor}`
 		console.log(url)
 		await fetch(url)
 			.then(res => {

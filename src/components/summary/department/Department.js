@@ -14,8 +14,8 @@ const Department = props => {
 	const getDepartment = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/department/${props.startDate}/${props.endDate}/${department}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/department/${startPeriod}/${endPeriod}/${department}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${props.startDate}/${props.endDate}/${department}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/department/${startPeriod}/${endPeriod}/${department}`
 
 		await fetch(url)
 			.then(res => {
@@ -31,8 +31,8 @@ const Department = props => {
 	const getDepartmentEmployees = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${props.startDate}/${props.endDate}/${department}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${startPeriod}/${endPeriod}/${department}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${props.startDate}/${props.endDate}/${department}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/departmentEmployees/${startPeriod}/${endPeriod}/${department}`
 
 		await fetch(url)
 			.then(res => {

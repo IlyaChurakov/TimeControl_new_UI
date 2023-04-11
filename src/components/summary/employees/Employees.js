@@ -10,8 +10,8 @@ const Employees = props => {
 	const getTopManagers = async () => {
 		const url =
 			props.startDate && props.endDate
-				? `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
-				: `https://rt-v-skid.atpr.local:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${startPeriod}/${endPeriod}`
+				? `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${props.startDate}/${props.endDate}`
+				: `https://${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/employeesStatistic/${startPeriod}/${endPeriod}`
 
 		console.log(url)
 
